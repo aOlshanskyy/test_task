@@ -1,0 +1,11 @@
+<nav class="navbar navbar-light bg-light">
+  <%= link_to "Main", root_path, class:"navbar-brand"%>
+
+    <form class="form-inline">
+    <% if user_signed_in?%>
+        <%= link_to destroy_user_session_path, method: :delete,  class:"btn btn-outline-success my-2 my-sm-0" do%><i class="fas fa-sign-out-alt"></i>Logout<%end%>
+      <%else%>
+      	<%= link_to new_user_session_path, class:"btn btn-outline-success my-2 my-sm-0" do %><i class="fas fa-sign-in-alt"></i>Login<%end%>
+      <%end%>
+  </form>
+</nav>

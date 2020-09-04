@@ -1,0 +1,43 @@
+<div class="container">
+<% breadcrumb :article, @article%>
+	<h1 style="text-align: center;"><%=@article.title%></h1>
+	<small style="color: green">This news is <%= @access%></small><br>
+	<div class="row">
+		<div class="col-12 col-md-6">
+			<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+	      		<div class="col-12 col-md-6">
+			      	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+			        	<div class="carousel-inner">
+			          		<% @article.images.each_with_index do |image, index| %>
+			            		<div class="<%=  index == 0 ? 'carousel-item active' : 'carousel-item' %>">
+			              			<div class="d-flex justify-content-center w-100">
+						                <%= image_tag image ,class:"carousel-image"%>
+						            </div>
+			            		</div>
+			          		<% end %>
+			        	</div>
+			      	</div>
+		  		</div>
+			  	<div class="col-12 col-md-6">
+			      	<ol class="carousel-indicators">
+			        	<% @article.images.each do |x| %>
+			          		<%= image_tag url_for(x), style: 'max-height: 75px;max-width: 75px; padding: 0.1em;', 'data-target': "#carouselExampleIndicators", 'data-slide-to': x, class:"#{x == 0 ? 'active' : ''}" %>
+			        	<% end %>
+			      	</ol>
+			    </div>
+			</div>
+		</div>
+			<div class="video" style="float: right;">
+				<%if @article.video.attached?%>	
+					<%= video_tag(url_for(@article.video), style:"wight: 100%; height: auto;", controls: '')%>
+				<%end%>
+			</div>
+		</div>
+		<%= @article.body %><br>
+		<%if @article.link?%>	
+			<h4 style="text-align: center;"><a href="<%= @article.link %>"> More information</a></h4>
+		<%end%>
+
+</div>
+</div>
+
