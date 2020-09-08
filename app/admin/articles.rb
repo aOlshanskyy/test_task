@@ -14,31 +14,18 @@ ActiveAdmin.register Article do
   # #   permitted << :other if params[:action] == 'create' && current_user.admin?
   # #   permitted
   # end
+  before_filter :only => [:show, :edit, :update, :destroy] do
+    @article = Article.find_by_hashed_id(params[:id])
+  end
     filter :title
-    filter :body
     filter :publish
     filter :access
 
-#     show do
-#     attributes_table do
-#       row :id
-#       row :title
-#       row :body
-#       row :publish
-#       row :access
-#       row :images do |article| 
-#         ul do
-#           article.images.each do |image|
-#             span image_tag(image, width: 100)
-#           end
-#         end
-#     end
-#   end
-# end
 form :html => { :enctype => "multipart/form-data" } do |f|
    f.inputs "Details" do
     f.input :title
-    f.input :body
+    f.label :content
+    f.rich_text_area :content, as: :action_text
     f.input :publish
     f.input :access #public = 1, private = 0
     f.input :link
@@ -47,18 +34,19 @@ form :html => { :enctype => "multipart/form-data" } do |f|
   end
   f.actions
  end
-show do
-    attributes_table do
-      row :images do |article| 
-        ul do
-          article.images.each do |image|
-            span image_tag(image, width: 100)
-          end
-        end
-      end
-    end
 
-    active_admin_comments
-  end
-  permit_params :title, :body, :publish, :access, :link, :video, images: []
+# show do
+#     attributes_table do
+#       row :images do |article| 
+#         ul do
+#           article.images.each do |image|
+#             span image_tag(image, width: 100)
+#           end
+#         end
+#       end
+#     end
+
+#     active_admin_comments
+#   end
+  permit_params :title, :body, :publish, :access, :link, :video, :content, :hashed_id, images: []
 end

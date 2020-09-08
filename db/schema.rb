@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_04_112750) do
+ActiveRecord::Schema.define(version: 2020_09_08_173312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "action_text_rich_texts", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body"
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
+  end
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -64,12 +74,12 @@ ActiveRecord::Schema.define(version: 2020_09_04_112750) do
 
   create_table "articles", force: :cascade do |t|
     t.string "title", null: false
-    t.string "body", null: false
     t.boolean "publish", default: false, null: false
     t.integer "access", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "link"
+    t.string "hashed_id"
   end
 
   create_table "users", force: :cascade do |t|
